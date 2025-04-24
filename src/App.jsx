@@ -13,8 +13,8 @@ function App() {
       <div className="bg-black text-white min-h-screen">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/1" element={<ModularHome />} />
+          <Route path="/1" element={<Home />} />
+          <Route path="/" element={<ModularHome />} />
           <Route path="/work" element={<Work />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/timeline" element={<Timeline />} />
