@@ -6,6 +6,7 @@ import Work from "./components/Work";
 import Contact from "./components/Contact";
 import ModularHome from "./components/ModularHome";
 import Timeline from "./components/Timeline";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/timeline" element={<Timeline />} />
         </Routes>
+        <SpeedInsights />
       </div>
     </Router>
   );
