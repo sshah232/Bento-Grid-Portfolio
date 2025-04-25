@@ -6,10 +6,12 @@ import Work from "./components/Work";
 import Contact from "./components/Contact";
 import ModularHome from "./components/ModularHome";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="bg-black text-white min-h-screen">
         <Navbar />
         <Routes>

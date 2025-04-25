@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import FlowAI from "../assets/FlowAI_logo.png";
 import GL from "../assets/ASUGL.png";
 import NIC from "../assets/NIC.png";
+import UN from "../assets/uneako.png";
 
 const Work = () => {
   const experiences = [
@@ -28,7 +29,7 @@ const Work = () => {
       role: "Software Engineer Intern",
       company: "Flow AI",
       location: "Austin, Texas, USA",
-      period: "June 2024 – August 2024",
+      period: "May 2024 – August 2024",
       logo: FlowAI,
       backgroundColor: "#1abc9c", // Teal
       color: "#3498db", // Blue
@@ -55,7 +56,25 @@ const Work = () => {
       ],
       tech: ["J2EE", "Bootstrap", "MeghRaj", "Unicode"],
       icon: "🏛️"
-    }
+    },
+    {
+      role: "Web Developer Intern",
+      company: "Uneako",
+      location: "Mumbai, India",
+      period: "September 2021 – November 2021",
+      logo: UN,
+      backgroundColor: "white",
+      color: "#FFA500", // Green
+      achievements: [
+        "Built Uneako.com with PHP, MySQL, HTML, CSS, and JavaScript, delivering a scalable web platform.",
+        "Developed a secure e-commerce system for 50+ eco-friendly products with real-time order management.",
+        "Designed a clean, mission-driven front-end, boosting user engagement by 40% in the first month.",
+        "Optimized backend with efficient SQL queries, cutting page load times by 30%.",
+        "Delivered a seamless, responsive UI across desktop and mobile for a frictionless checkout experience."
+      ],
+      tech: ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap"],
+      icon:"🌳"
+    },
   ];
 
   return (
@@ -155,7 +174,7 @@ const Work = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
           </div>
-          <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">30+</div>
+          <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">55+</div>
           <div className="text-center text-sm md:text-base text-gray-400">Email Templates</div>
         </div>
 
@@ -177,7 +196,7 @@ const Work = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
           </div>
-          <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">13</div>
+          <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">35+</div>
           <div className="text-center text-sm md:text-base text-gray-400">REST APIs Built</div>
         </div>
       </div>
