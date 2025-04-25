@@ -4,7 +4,7 @@ import shubham from "../assets/shubham1.png";
 import { ContactIcon } from "./Icons";
 import { FadeIn } from "./FadeIn";
 import Socials from "./Socials";
-import BentoGrid from "./BentoGrid";
+import HomeBentoGridLayout from "./BentoGrid";
 
 function ModularHome() {
   return (
@@ -32,7 +32,7 @@ function ModularHome() {
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
               <div className="absolute right-100 top-10 w-16 h-16 opacity-20">
                 <svg className="animate-bounce-slow" viewBox="0 0 24 24" fill="#ff5e1a">
-                  <path d="M21.71,3.29a1,1,0,0,0-1.42,0l-5.79,5.8-5.8-5.8a1,1,0,0,0-1.42,1.42l5.8,5.79-5.8,5.8a1,1,0,0,0,1.42,1.42l5.8-5.8,5.79,5.8a1,1,0,0,0,1.42-1.42l-5.8-5.8,5.8-5.79A1,1,0,0,0,21.71,3.29Z" />
+                  <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" />
                 </svg>
               </div>
               <div className="absolute left-10 bottom-20 w-10 h-10 opacity-20">
@@ -67,7 +67,7 @@ function ModularHome() {
             </div>
 
             <a
-              href="/assets/ShubhamShahResume.pdf"
+              href="/ShubhamShahResume.pdf"
               download
               className="group relative min-h-[70px] bg-[#ff5e1a] hover:bg-[#ff7a42] shadow-lg text-2xl font-bold text-center px-8 py-4 rounded-[99px] max-md:text-xl flex items-center justify-center gap-3 text-white overflow-hidden transition-all duration-300"
             >
@@ -83,7 +83,7 @@ function ModularHome() {
             </a>
 
             <div className="text-sm text-gray-500">
-              <span className="inline-block animate-pulse-slow">⭐</span> Rated 5 stars by my mom! <span className="inline-block animate-pulse-slow">⭐</span>
+              <span className="inline-block animate-pulse-slow">⭐</span> Rated 5 stars by my mom, dad and sister! <span className="inline-block animate-pulse-slow">⭐</span>
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@ function ModularHome() {
       </FadeIn>
 
       {/* Add the Bento Grid here */}
-      <BentoGrid />
+      <HomeBentoGridLayout />
     </Container>
   );
 }
