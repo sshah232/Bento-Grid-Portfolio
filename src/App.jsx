@@ -7,19 +7,23 @@ import Contact from "./components/Contact";
 import ModularHome from "./components/ModularHome";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import ScrollToTop from "./components/ScrollToTop";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="bg-black text-white min-h-screen">
+      <div className="bg-black text-white min-h-screen flex flex-col">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<ModularHome />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/1" element={<Home />} />
-        </Routes>
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<ModularHome />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/1" element={<Home />} />
+          </Routes>
+        </div>
+        <Footer />
         <SpeedInsights />
       </div>
     </Router>

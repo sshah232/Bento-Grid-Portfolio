@@ -43,7 +43,7 @@ function HomeBentoGridLayout() {
     setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
   };
   return (
-    <div className="mb-8 my-2">
+    <div className="my-2">
       <FadeIn>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-2 auto-rows-auto">
           {/* Master's Progress Card */}

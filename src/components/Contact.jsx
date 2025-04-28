@@ -44,7 +44,7 @@ function Contact() {
     return (
         <Container id="contact">
             <FadeIn>
-                <div className="w-full max-w-7xl mx-auto mb-10 my-2">
+                <div className="w-full max-w-7xl mx-auto my-2">
                     <div className="relative bg-[#131315] rounded-3xl p-8 overflow-hidden">
                         {/* Background Accents - Similar to the bento grid cards */}
                         <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">

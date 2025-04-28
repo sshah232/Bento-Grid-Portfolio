@@ -78,7 +78,7 @@ const Work = () => {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto py-8 md:py-16 px-4">
+    <div className="w-full max-w-7xl mx-auto py-4 md:py-4 px-4">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-16 text-white">
         <span className="text-[#ff5e1a]">Professional</span> Journey
       </h2>
