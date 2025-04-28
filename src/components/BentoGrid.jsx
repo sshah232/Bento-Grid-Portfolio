@@ -4,7 +4,7 @@ import asuLogo from "../assets/asu-logo.png";
 import uofm from "../assets/mumbai.png";
 import ml1 from "../assets/Research1.png";
 import ml2 from "../assets/Research2.png";
-import rec from "../assets/rec.jpg";
+import rec from "../assets/Rec.jpg";
 
 function HomeBentoGridLayout() {
   // Array of programming and tech quotes
