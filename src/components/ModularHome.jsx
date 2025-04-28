@@ -18,12 +18,12 @@ function ModularHome() {
               className="overflow-hidden w-[108px] h-[108px] flex-[0_0_auto] rounded-full"
             />
             <h1 className="max-md:text-[40px] max-md:leading-[48px] max-md:tracking-[-0.01em]">
-              shubham shah
+              Shubham Shah
               <br />
-              software developer{" "}
+              {" "}
               <span className="text-[#8a8a93]">
                 {" "}
-                who builds things fueled by a passion for tech.
+                software developer who builds things fueled by a passion for tech.
               </span>
             </h1>
           </div>
@@ -57,7 +57,7 @@ function ModularHome() {
                 </div>
               </div>
               <h2 className="text-4xl max-md:text-3xl font-bold tracking-tight mb-3">
-                Resume? Absolutely!
+                Resumé? Absolutely!
               </h2>
               <p className="text-gray-300 text-lg max-w-md mb-2">
                 My life story, compressed into a PDF.
@@ -83,7 +83,7 @@ function ModularHome() {
             </a>
 
             <div className="text-sm text-gray-500">
-              <span className="inline-block animate-pulse-slow">⭐</span> Rated 5 stars by my mom, dad and sister! <span className="inline-block animate-pulse-slow">⭐</span>
+              <span className="inline-block animate-pulse-slow">⭐</span> Rated 5 stars by my family! <span className="inline-block animate-pulse-slow">⭐</span>
             </div>
           </div>
         </div>
@@ -92,14 +92,56 @@ function ModularHome() {
         <Socials />
       </FadeIn>
       <FadeIn>
-        <div className="flex w-full flex-col items-start gap-x-8 gap-y-8 bg-[#131315] px-12 py-10 rounded-3xl max-mdd:max-w-none max-md:p-8 mb-2">
-          <h3 className="max-md:text-[32px] max-md:leading-10 max-md:tracking-[-0.01em]">
-            🚀 I'm a full-stack software engineer passionate about AI, cloud infrastructure, and building scalable systems. From launching multilingual platforms to winning national hackathons, I turn bold ideas into powerful products.{" "}
-            <span className="text-[#8a8a93]">
-              {" "}
-              join me to explore my unique projects and creative solutions.
-            </span>
+        <div className="relative flex w-full flex-col items-start gap-y-6 bg-[#131315] px-12 py-10 rounded-3xl max-mdd:max-w-none max-md:p-8 group hover:shadow-[0_0_30px_rgba(255,94,26,0.15)] transition-all duration-500 overflow-hidden">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#131315] to-[#1a1a1c] opacity-70"></div>
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#ff5e1a] opacity-5 rounded-full blur-3xl group-hover:opacity-10 transition-opacity duration-500"></div>
+          
+          {/* Title with gradient highlight */}
+          <div className="relative flex items-center">
+            <span className="text-4xl mr-3">🚀</span>
+            <div className="h-8 w-1 bg-gradient-to-b from-[#ff5e1a] to-transparent rounded-full mr-3"></div>
+            <h2 className="text-2xl font-bold text-white">About Me</h2>
+          </div>
+          
+          {/* Bio with animated highlight */}
+          <h3 className="relative z-10 text-xl leading-relaxed text-[#a0a0a8] max-md:text-lg max-md:leading-7">
+            I'm a <span className="font-bold text-white">full-stack software engineer</span> passionate about 
+            <span className="relative inline-block mx-1">
+              <span className="relative z-10 font-bold text-white">AI</span>
+              <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
+            </span>, 
+            <span className="relative inline-block mx-1">
+              <span className="relative z-10 font-bold text-white">cloud infrastructure</span>
+              <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
+            </span>, and 
+            <span className="relative inline-block mx-1">
+              <span className="relative z-10 font-bold text-white">scalable systems</span>
+              <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
+            </span>. 
+            From launching multilingual platforms to winning national hackathons, I turn bold ideas into powerful products. 
+            Join me to explore my unique projects and creative solutions.
           </h3>
+          
+          {/* Animated tech icons */}
+          <div className="absolute bottom-4 right-4 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+            <div className="flex space-x-4">
+              {['brain', 'server', 'code', 'globe'].map((tech, index) => (
+                <div 
+                  key={tech} 
+                  className="text-[#ff5e1a] animate-pulse" 
+                  style={{ animationDelay: `${index * 0.3}s` }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    {tech === 'brain' && <><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 0 19.5v-15A2.5 2.5 0 0 1 2.5 2h7z" /><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5v-15A2.5 2.5 0 0 0 21.5 2h-7z" /></>}
+                    {tech === 'server' && <><rect x="2" y="2" width="20" height="8" rx="2" ry="2" /><rect x="2" y="14" width="20" height="8" rx="2" ry="2" /><line x1="6" y1="6" x2="6.01" y2="6" /><line x1="6" y1="18" x2="6.01" y2="18" /></>}
+                    {tech === 'code' && <><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></>}
+                    {tech === 'globe' && <><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></>}
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </FadeIn>
 

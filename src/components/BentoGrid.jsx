@@ -1,13 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FadeIn } from "./FadeIn";
 import asuLogo from "../assets/asu-logo.png";
 import uofm from "../assets/mumbai.png";
 import ml1 from "../assets/Research1.png";
 import ml2 from "../assets/Research2.png";
+import rec from "../assets/rec.jpg";
 
 function HomeBentoGridLayout() {
+  // Array of programming and tech quotes
+  const [quotes, setQuotes] = useState([
+    {
+      text: "Code is like humor. When you have to explain it, it's bad.",
+      author: "Cory House"
+    },
+    {
+      text: "The best way to predict the future is to invent it.",
+      author: "Alan Kay"
+    },
+    {
+      text: "Simplicity is the soul of efficiency.",
+      author: "Austin Freeman"
+    },
+    {
+      text: "It's not a bug; it's an undocumented feature.",
+      author: "Anonymous"
+    },
+    {
+      text: "In a room full of top software engineers, if two agree on the same thing, that's a majority.",
+      author: "Bill Curtis"
+    },
+    {
+      text: "The most disastrous thing that you can ever learn is your first programming language.",
+      author: "Alan Kay"
+    }
+  ]);
+
+  // State to track current quote index
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+
+  // Function to change to the next quote
+  const changeQuote = () => {
+    setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+  };
   return (
-    <div className="mb-8">
+    <div className="mb-8 my-2">
       <FadeIn>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-2 auto-rows-auto">
           {/* Master's Progress Card */}
@@ -72,9 +108,23 @@ function HomeBentoGridLayout() {
 
                 {/* Language Icons - Using placeholder Unicode characters for languages */}
                 <div className="flex space-x-2 mt-2 sm:mt-0">
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="Python">Py</span>
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="React">Re</span>
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="GCP">GC</span>
+                  {[
+                    { abbr: "Py", fullName: "Python" },
+                    { abbr: "Re", fullName: "React" },
+                    { abbr: "GC", fullName: "Google Cloud" }
+                  ].map((tech, index) => (
+                    <div key={tech.abbr} className="relative group/tech">
+                      <span
+                        className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white cursor-pointer"
+                        title={tech.fullName}
+                      >
+                        {tech.abbr}
+                      </span>
+                      <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-xs text-white rounded opacity-0 group-hover/tech:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                        {tech.fullName}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -436,22 +486,201 @@ function HomeBentoGridLayout() {
             </div>
           </div>
 
-          {/* Center Feature: Contact Section */}
-          <div className="relative bg-[#1f1f23] rounded-3xl p-4 md:p-6 lg:p-8 col-span-1 sm:col-span-2 row-span-1 flex flex-col justify-center items-start overflow-hidden">
-            <svg className="absolute inset-0 w-full h-full opacity-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 200 200">
-              <path d="M0,100 Q100,0 200,100 T400,100" strokeWidth="2" />
-            </svg>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">Let's Connect</h2>
-            <h3 className="text-lg sm:text-xl text-[#ff5e1a] mb-2 sm:mb-4">Get in touch</h3>
-            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed mb-3 sm:mb-4">
-              Looking for a skilled software engineer with expertise in AI and cloud technologies?
-            </p>
-            <a
-              href="mailto:shubhamshah1551@gmail.com"
-              className="bg-[#ff5e1a] transition-[background-color] duration-300 ease-[ease-out] text-sm sm:text-lg font-medium text-center tracking-[-0.01em] px-4 sm:px-6 py-2 sm:py-3 rounded-full text-white hover:bg-opacity-90"
-            >
-              hey@shubham.com <span className="ml-1 animate-pulse">👋</span>
-            </a>
+          {/* Fun Interactive Quote Card */}
+          <div
+            className="relative bg-[#1f1f23] rounded-3xl p-4 md:p-6 lg:p-8 col-span-1 sm:col-span-2 row-span-1 overflow-hidden group cursor-pointer"
+            onClick={changeQuote}
+          >
+            {/* Animated Background */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#131315] via-[#1f1f23] to-[#131315] opacity-80"></div>
+              <div className="absolute -top-12 -left-12 w-24 h-24 rounded-full bg-purple-500 blur-xl opacity-20 animate-pulse"></div>
+              <div className="absolute bottom-4 right-4 w-32 h-32 rounded-full bg-blue-500 blur-xl opacity-10 animate-pulse"></div>
+              <div className="absolute top-1/2 left-1/3 w-20 h-20 rounded-full bg-[#ff5e1a] blur-xl opacity-20 animate-pulse"></div>
+            </div>
+
+            {/* Content Container */}
+            <div className="relative z-10 h-full flex flex-col items-center justify-center text-center">
+              {/* Random Fun Fact Button */}
+              <div className="mb-4 sm:mb-6 relative">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 relative flex items-center justify-center mx-auto">
+                  <div className="absolute inset-0 bg-[#ff5e1a] rounded-full opacity-20 animate-ping"></div>
+                  <div className="absolute inset-0 bg-[#ff5e1a] rounded-full opacity-30"></div>
+                  <span className="text-3xl sm:text-4xl transform group-hover:rotate-12 transition-transform duration-300">💡</span>
+                </div>
+              </div>
+
+              {/* Random Quote - Now using the current quote from state */}
+              <div className="transition-opacity duration-300">
+                <p className="text-base sm:text-lg md:text-xl font-bold text-white italic mb-2 sm:mb-4">
+                  "{quotes[currentQuoteIndex].text}"
+                </p>
+                <p className="text-xs sm:text-sm text-gray-400">
+                  – {quotes[currentQuoteIndex].author}
+                </p>
+              </div>
+
+              {/* Hover/Click Instruction */}
+              <div className="absolute bottom-3 left-0 w-full text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-xs text-gray-500">Click for another quote</p>
+              </div>
+            </div>
+          </div>
+
+          {/* REC Engine Project Card */}
+          <div className="relative bg-[#131315] rounded-3xl p-4 md:p-6 lg:p-8 overflow-hidden sm:col-span-2 row-span-2 group hover:bg-[#1a1a1c] transition-all duration-300">
+            {/* Background Accent - Virtual House Environment */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
+              <div className="absolute top-10 left-20 w-24 h-24 rounded-full bg-cyan-500 blur-xl"></div>
+              <div className="absolute bottom-20 right-10 w-20 h-20 rounded-full bg-emerald-500 blur-xl"></div>
+              <div className="absolute top-1/2 left-1/3 w-16 h-16 rounded-full bg-amber-500 blur-xl"></div>
+            </div>
+
+            <div className="relative z-10">
+              {/* Project Header */}
+              <div className="flex flex-col sm:flex-row justify-between items-start mb-4 lg:mb-6">
+                <div>
+                  <div className="flex flex-wrap items-center mb-2 sm:mb-0">
+                    <span className="text-[#ff5e1a] text-base lg:text-lg font-bold mr-2">REC Engine</span>
+                    <span className="mt-1 sm:mt-0 px-2 py-1 bg-indigo-500 bg-opacity-20 text-indigo-400 text-xs rounded-full">
+                      <span className="inline-block mr-1">🏆</span>
+                      Award-Winning Project
+                    </span>
+                  </div>
+                  <p className="text-gray-400 text-xs lg:text-sm mt-1">March 2022 - May 2022</p>
+                </div>
+
+                {/* Technology Icons with Hover Tooltips */}
+                <div className="flex space-x-2 mt-2 sm:mt-0">
+                  {[
+                    { abbr: "Py", fullName: "Python" },
+                    { abbr: "ML", fullName: "Machine Learning" },
+                    { abbr: "Sp", fullName: "Spline 3D" }
+                  ].map((tech, index) => (
+                    <div key={tech.abbr} className="relative group/tech">
+                      <span
+                        className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white cursor-pointer"
+                        title={tech.fullName}
+                      >
+                        {tech.abbr}
+                      </span>
+                      <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-xs text-white rounded opacity-0 group-hover/tech:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                        {tech.fullName}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Visual Element - Terminal-Style Virtual House Visualization */}
+              <div className="mb-4 lg:mb-6 bg-[#1f1f23] rounded-xl border border-gray-800 overflow-hidden">
+                <div className="flex items-center justify-between p-2 lg:p-3 bg-[#131315] border-b border-gray-800">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-red-500 mr-1 lg:mr-2"></div>
+                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-yellow-500 mr-1 lg:mr-2"></div>
+                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-green-500 mr-1 lg:mr-2"></div>
+                    <span className="text-xs text-gray-400">rec-engine.virtual.house</span>
+                  </div>
+                </div>
+
+                {/* House Visualization */}
+                <div className="p-3 lg:p-4">
+                  <img
+                    src={rec}
+                    alt="REC Engine Virtual House"
+                    className="w-full h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{ minHeight: "180px" }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.style.height = "180px";
+                      e.target.src = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='180' viewBox='0 0 800 180'%3E%3Crect fill='%231f1f23' width='800' height='180'/%3E%3Ctext fill='%238a8a93' font-family='Arial' font-size='18' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle'%3E3D Virtual House Visualization%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Recommendation Rooms Grid */}
+              <div className="grid grid-cols-3 gap-2 py-2 mb-4 lg:mb-6 bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
+                {/* Movies Room */}
+                <div className="bg-[#131315] p-2 lg:p-3 rounded-lg border border-gray-800 flex flex-col items-center">
+                  <div className="text-xs text-gray-400 mb-1">Movies</div>
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 bg-amber-500 bg-opacity-30 rounded-md flex items-center justify-center mb-1">
+                    <span className="text-lg">🎬</span>
+                  </div>
+                  <div className="text-xs text-center text-white">Theater Room</div>
+                </div>
+
+                {/* Music Room */}
+                <div className="bg-[#131315] p-2 lg:p-3 rounded-lg border border-gray-800 flex flex-col items-center">
+                  <div className="text-xs text-gray-400 mb-1">Music</div>
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 bg-purple-500 bg-opacity-30 rounded-md flex items-center justify-center mb-1">
+                    <span className="text-lg">🎵</span>
+                  </div>
+                  <div className="text-xs text-center text-white">Music Room</div>
+                </div>
+
+                {/* Restaurants Room */}
+                <div className="bg-[#131315] p-2 lg:p-3 rounded-lg border border-gray-800 flex flex-col items-center">
+                  <div className="text-xs text-gray-400 mb-1">Restaurants</div>
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 bg-blue-500 bg-opacity-30 rounded-md flex items-center justify-center mb-1">
+                    <span className="text-lg">🍽️</span>
+                  </div>
+                  <div className="text-xs text-center text-white">Restaurants</div>
+                </div>
+              </div>
+
+              {/* Metrics/Highlights */}
+              <div className="grid grid-cols-2 gap-2 lg:gap-4 mb-4 lg:mb-6">
+                <div className="bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
+                  <div className="text-xl lg:text-2xl font-bold text-white">95%</div>
+                  <div className="text-xs text-gray-400">User engagement</div>
+                </div>
+                <div className="bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
+                  <div className="text-xl lg:text-2xl font-bold text-white">3+</div>
+                  <div className="text-xs text-gray-400">Competition wins</div>
+                </div>
+              </div>
+
+              {/* Project Description */}
+              <p className="text-gray-300 text-xs lg:text-sm mb-4">
+                Multi-option recommendation system gamifying exploration of various recommendation algorithms based on virtual house environment. Acclaimed by faculty and won multiple competitions for its innovative user-centric approach and cross-platform functionality.
+              </p>
+
+              {/* Results */}
+              <div className="flex flex-wrap space-x-2 lg:space-x-4 relative z-10">
+                <div className="flex items-center">
+                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7 7 7-7" />
+                  </svg>
+                  <span className="text-green-400 text-xs lg:text-sm">85% higher discovery</span>
+                </div>
+                <div className="flex items-center">
+                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7 7 7-7" />
+                  </svg>
+                  <span className="text-green-400 text-xs lg:text-sm">90% cross-platform</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile-only visible button */}
+            <div className="mt-6 block md:hidden">
+              <a
+                href="https://rec-engine-deploy.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center py-2 lg:py-3 bg-[#ff5e1a] rounded-full text-white text-sm lg:text-base font-medium hover:bg-opacity-90 transition-colors"
+              >
+                View Project Details
+              </a>
+            </div>
+
+            {/* Hover Effect - Reveal View Project Button */}
+            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#1a1a1c] via-[#1a1a1c] to-transparent p-4 lg:p-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-20">
+              <button onClick={() => window.open("https://rec-engine-deploy.vercel.app/", "_blank")} className="w-full py-2 lg:py-3 bg-[#ff5e1a] rounded-full text-white text-sm lg:text-base font-medium hover:bg-opacity-90 transition-all">
+                View Project Details
+              </button>
+            </div>
           </div>
 
           {/* Tech Stack Card - ENHANCED */}
@@ -488,6 +717,113 @@ function HomeBentoGridLayout() {
                   {['Docker', 'Kubernetes', 'Git', 'Jenkins', 'PostgreSQL', 'MongoDB', 'Kafka', 'GCP', 'Azure'].map(t => (
                     <span key={t} className="bg-gray-800 text-white text-xs px-2 sm:px-3 py-1 rounded-full">{t}</span>
                   ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Extracurriculars Card - NEW CARD */}
+          <div className="relative bg-[#131315] rounded-3xl p-4 md:p-6 lg:p-8 overflow-hidden col-span-1 sm:col-span-2 row-span-2">
+            <svg className="absolute -bottom-8 -right-8 w-48 h-48 opacity-5 text-white rotate-12" fill="none" stroke="currentColor" viewBox="0 0 100 100">
+              <path d="M30,10 Q50,30 70,10 T90,30" strokeWidth="1" />
+            </svg>
+
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-5 relative z-10">Extracurriculars & Leadership</h3>
+
+            {/* Leadership Roles */}
+            <div className="mb-4 lg:mb-6 relative z-10">
+              <h4 className="text-sm sm:text-base text-[#ff5e1a] font-medium mb-2">Student Council & Research Cell</h4>
+
+              <div className="space-y-3">
+                {/* Cultural Secretary */}
+                <div className="bg-[#1f1f23] p-3 rounded-xl border border-gray-800">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-purple-500 bg-opacity-20 flex items-center justify-center flex-shrink-0 mr-3">
+                      <span className="text-lg">🎭</span>
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center mb-1">
+                        <span className="text-sm text-white font-medium mr-2">Cultural Secretary</span>
+                        <span className="text-xs text-gray-400">Student Council | 2022-2023</span>
+                      </div>
+                      <p className="text-xs text-gray-300">Planned and conducted various annual cultural events for over 3000+ students, coordinating multiple teams and managing event logistics.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Secretary - Research Cell */}
+                <div className="bg-[#1f1f23] p-3 rounded-xl border border-gray-800">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-500 bg-opacity-20 flex items-center justify-center flex-shrink-0 mr-3">
+                      <span className="text-lg">🔬</span>
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center mb-1">
+                        <span className="text-sm text-white font-medium mr-2">Secretary</span>
+                        <span className="text-xs text-gray-400">Research Cell | 2022-2023</span>
+                      </div>
+                      <p className="text-xs text-gray-300">Led research initiatives across departments, facilitating workshops and connecting students with faculty mentors for collaborative projects.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sports Coordinator */}
+                <div className="bg-[#1f1f23] p-3 rounded-xl border border-gray-800">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-green-500 bg-opacity-20 flex items-center justify-center flex-shrink-0 mr-3">
+                      <span className="text-lg">🏆</span>
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center mb-1">
+                        <span className="text-sm text-white font-medium mr-2">Sports Coordinator</span>
+                        <span className="text-xs text-gray-400">Student Council | 2021-2022</span>
+                      </div>
+                      <p className="text-xs text-gray-300">Organized inter-college sports tournaments and managed team selections, increasing sports participation by 40% among engineering students.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Technical Secretary */}
+                <div className="bg-[#1f1f23] p-3 rounded-xl border border-gray-800">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-yellow-500 bg-opacity-20 flex items-center justify-center flex-shrink-0 mr-3">
+                      <span className="text-lg">💻</span>
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center mb-1">
+                        <span className="text-sm text-white font-medium mr-2">Technical Secretary</span>
+                        <span className="text-xs text-gray-400">Research Cell | 2021-2022</span>
+                      </div>
+                      <p className="text-xs text-gray-300">Coordinated technical workshops and hackathons, helping students develop practical skills and fostering innovation across engineering disciplines.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sports & Activities */}
+            <div className="relative z-10">
+              <h4 className="text-sm sm:text-base text-[#ff5e1a] font-medium mb-2">Sports & Activities</h4>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="bg-[#1f1f23] rounded-xl p-3 flex flex-col items-center justify-center border border-gray-800">
+                  <span className="text-2xl mb-1">🏏</span>
+                  <span className="text-xs sm:text-sm text-white">Cricket</span>
+                </div>
+
+                <div className="bg-[#1f1f23] rounded-xl p-3 flex flex-col items-center justify-center border border-gray-800">
+                  <span className="text-2xl mb-1">⚽</span>
+                  <span className="text-xs sm:text-sm text-white">Soccer</span>
+                </div>
+
+                <div className="bg-[#1f1f23] rounded-xl p-3 flex flex-col items-center justify-center border border-gray-800">
+                  <span className="text-2xl mb-1">🏓</span>
+                  <span className="text-xs sm:text-sm text-white">Table Tennis</span>
+                </div>
+
+                <div className="bg-[#1f1f23] rounded-xl p-3 flex flex-col items-center justify-center border border-gray-800">
+                  <span className="text-2xl mb-1">🏸</span>
+                  <span className="text-xs sm:text-sm text-white">Badminton</span>
                 </div>
               </div>
             </div>
