@@ -8,7 +8,6 @@ export default {
       },
       screens: {
         mdd: "991px",
-        'landscape': {'raw': '(orientation: landscape) and (max-height: 600px)'},
       },
     },
   },

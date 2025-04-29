@@ -121,7 +121,7 @@ function ModularHome() {
               <span className="relative z-10 font-bold text-white">award-winning projects</span>
               <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
             </span>
-            spanning multilingual platforms and empathetic AI assistants, I combine 
+            spanning multilingual platforms and empathetic AI assistants, I combine
             <span className="font-bold text-white"> technical expertise</span> with
             <span className="font-bold text-white"> creative vision</span> to build systems that scale and resonate. Currently pursuing my
             <span className="relative inline-block mx-1">
