@@ -6,6 +6,7 @@ import Work from "./components/Work";
 import Contact from "./components/Contact";
 import ModularHome from "./components/ModularHome";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react"
 import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
 
@@ -25,6 +26,7 @@ function App() {
         </div>
         <Footer />
         <SpeedInsights />
+        <Analytics />
       </div>
     </Router>
   );
