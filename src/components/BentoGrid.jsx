@@ -6,7 +6,44 @@ import ml1 from "../assets/Research1.png";
 import ml2 from "../assets/Research2.png";
 import rec from "../assets/Rec.jpg";
 
+function useIsLandscape() {
+  const [isLandscape, setIsLandscape] = useState(
+    typeof window !== 'undefined' && window.matchMedia("(orientation: landscape) and (max-height: 600px)").matches
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const mediaQuery = window.matchMedia("(orientation: landscape) and (max-height: 600px)");
+    
+    const handleOrientationChange = (e) => {
+      setIsLandscape(e.matches);
+    };
+    
+    // Use the proper event listener method based on browser support
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", handleOrientationChange);
+    } else {
+      // For older browsers
+      mediaQuery.addListener(handleOrientationChange);
+    }
+    
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener("change", handleOrientationChange);
+      } else {
+        // For older browsers
+        mediaQuery.removeListener(handleOrientationChange);
+      }
+    };
+  }, []);
+
+  return isLandscape;
+}
+
 function HomeBentoGridLayout() {
+  const isLandscape = useIsLandscape();
+  
   // Array of programming and tech quotes
   const [quotes, setQuotes] = useState([
     {
@@ -42,23 +79,61 @@ function HomeBentoGridLayout() {
   const changeQuote = () => {
     setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
   };
+  
+  // Dynamic classes based on orientation
+  const cardBaseClass = `relative bg-[#131315] rounded-3xl ${
+    isLandscape ? "p-3" : "p-4 md:p-6 lg:p-8"
+  }`;
+  
+  const headingClass = `font-bold text-white ${
+    isLandscape ? "text-sm mb-1" : "text-lg lg:text-xl mb-2"
+  }`;
+  
+  const paragraphClass = `text-gray-300 ${
+    isLandscape ? "text-xs mb-2" : "text-xs lg:text-sm mb-4"
+  }`;
+  
   return (
     <div className="my-2">
       <FadeIn>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-2 auto-rows-auto">
+        <div className={`grid grid-cols-1 ${
+          isLandscape 
+            ? "landscape:grid-cols-3 gap-2" 
+            : "sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-2"
+        } auto-rows-auto`}>
+        
           {/* Master's Progress Card */}
-          <div className="relative bg-[#131315] rounded-3xl p-4 md:p-6 lg:p-8 flex flex-col justify-between sm:col-span-1 row-span-2 overflow-hidden">
+          <div className={`${cardBaseClass} flex flex-col justify-between sm:col-span-1 ${
+            isLandscape ? "row-span-1" : "row-span-2"
+          } overflow-hidden ${isLandscape ? "max-h-[85vh] overflow-y-auto" : ""}`}>
             {/* SVG Accent */}
-            <svg className="absolute -top-8 -left-8 w-48 h-48 opacity-5 text-white rotate-45" fill="none" stroke="currentColor" viewBox="0 0 100 100">
+            <svg className={`absolute -top-8 -left-8 opacity-5 text-white rotate-45 ${
+              isLandscape ? "w-24 h-24" : "w-48 h-48"
+            }`} fill="none" stroke="currentColor" viewBox="0 0 100 100">
               <path d="M0,50 Q50,0 100,50 T200,50" strokeWidth="1" />
             </svg>
+            
             {/* ASU Logo */}
-            <img src={asuLogo} alt="ASU Logo" className="w-20 h-20 sm:w-24 sm:h-24 lg:w-36 lg:h-36 mx-auto mb-2 lg:mb-4" />
-            <h3 className="text-lg lg:text-xl font-bold text-center text-white mb-2">M.S. in Software Engineering</h3>
+            <img 
+              src={asuLogo} 
+              alt="ASU Logo" 
+              className={`mx-auto ${
+                isLandscape 
+                  ? "w-16 h-16 mb-1" 
+                  : "w-20 h-20 sm:w-24 sm:h-24 lg:w-36 lg:h-36 mb-2 lg:mb-4"
+              }`} 
+            />
+            
+            <h3 className={`${headingClass} text-center`}>M.S. in Software Engineering</h3>
+            
             {/* Progress Ring */}
-            <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto mb-2">
+            <div className={`relative mx-auto mb-2 ${
+              isLandscape ? "w-16 h-16" : "w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32"
+            }`}>
               {/* Background circle */}
-              <div className="absolute top-0 left-0 w-full h-full rounded-full border-6 lg:border-8 border-gray-800"></div>
+              <div className={`absolute top-0 left-0 w-full h-full rounded-full ${
+                isLandscape ? "border-4" : "border-6 lg:border-8"
+              } border-gray-800`}></div>
 
               {/* Progress circle */}
               <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100">
@@ -77,15 +152,23 @@ function HomeBentoGridLayout() {
 
               {/* Percentage text */}
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">95%</span>
+                <span className={`font-bold text-white ${
+                  isLandscape ? "text-lg" : "text-xl sm:text-2xl lg:text-3xl"
+                }`}>95%</span>
               </div>
             </div>
-            <p className="text-center text-xs lg:text-sm text-gray-400">GPA: 3.7 / 4.0</p>
+            
+            <p className={`text-center ${
+              isLandscape ? "text-xs" : "text-xs lg:text-sm"
+            } text-gray-400`}>GPA: 3.7 / 4.0</p>
+            
             <p className="text-center text-xs text-gray-500 mt-1">Aug 2023 – May 2025</p>
           </div>
 
           {/* Linguify Project Card */}
-          <div className="relative bg-[#131315] rounded-3xl p-4 md:p-6 lg:p-8 overflow-hidden sm:col-span-2 row-span-2 group hover:bg-[#1a1a1c] transition-all duration-300">
+          <div className={`${cardBaseClass} overflow-hidden sm:col-span-2 ${
+            isLandscape ? "row-span-1 max-h-[85vh] overflow-y-auto" : "row-span-2"
+          } group hover:bg-[#1a1a1c] transition-all duration-300`}>
             {/* Background Accent - Language Bubbles */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
               <div className="absolute top-5 left-10 w-16 h-16 rounded-full bg-blue-500 blur-xl"></div>
@@ -97,16 +180,26 @@ function HomeBentoGridLayout() {
 
             <div className="relative z-10">
               {/* Project Header */}
-              <div className="flex flex-col sm:flex-row justify-between items-start mb-4 lg:mb-6">
+              <div className={`flex flex-col sm:flex-row justify-between items-start ${
+                isLandscape ? "mb-2" : "mb-4 lg:mb-6"
+              }`}>
                 <div>
-                  <div className="flex flex-wrap items-center mb-2 sm:mb-0">
-                    <span className="text-[#ff5e1a] text-base lg:text-lg font-bold mr-2">Linguify</span>
-                    <span className="mt-1 sm:mt-0 px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-400 text-xs rounded-full">Founder & Lead Developer</span>
+                  <div className={`flex flex-wrap items-center ${
+                    isLandscape ? "mb-1" : "mb-2 sm:mb-0"
+                  }`}>
+                    <span className={`text-[#ff5e1a] font-bold mr-2 ${
+                      isLandscape ? "text-sm" : "text-base lg:text-lg"
+                    }`}>Linguify</span>
+                    <span className={`mt-1 sm:mt-0 bg-blue-500 bg-opacity-20 text-blue-400 rounded-full ${
+                      isLandscape ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-1 text-xs"
+                    }`}>Founder & Lead Developer</span>
                   </div>
-                  <p className="text-gray-400 text-xs lg:text-sm mt-1">June 2024</p>
+                  <p className={`text-gray-400 mt-1 ${
+                    isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                  }`}>June 2024</p>
                 </div>
 
-                {/* Language Icons - Using placeholder Unicode characters for languages */}
+                {/* Language Icons */}
                 <div className="flex space-x-2 mt-2 sm:mt-0">
                   {[
                     { abbr: "Py", fullName: "Python" },
@@ -115,12 +208,16 @@ function HomeBentoGridLayout() {
                   ].map((tech, index) => (
                     <div key={tech.abbr} className="relative group/tech">
                       <span
-                        className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white cursor-pointer"
+                        className={`flex items-center justify-center bg-gray-800 rounded-full text-white cursor-pointer ${
+                          isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                        }`}
                         title={tech.fullName}
                       >
                         {tech.abbr}
                       </span>
-                      <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-xs text-white rounded opacity-0 group-hover/tech:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                      <span className={`absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-xs text-white rounded opacity-0 group-hover/tech:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none ${
+                        isLandscape ? "hidden" : ""
+                      }`}>
                         {tech.fullName}
                       </span>
                     </div>
@@ -129,88 +226,165 @@ function HomeBentoGridLayout() {
               </div>
 
               {/* Visual Element - Translation Visualization */}
-              <div className="mb-4 lg:mb-6 bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
-                <div className="flex items-center justify-between mb-2 lg:mb-3">
+              <div className={`bg-[#1f1f23] rounded-xl border border-gray-800 ${
+                isLandscape ? "mb-2 p-2" : "mb-4 lg:mb-6 p-3 lg:p-4"
+              }`}>
+                <div className={`flex items-center justify-between ${
+                  isLandscape ? "mb-1" : "mb-2 lg:mb-3"
+                }`}>
                   <div className="flex items-center">
-                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-red-500 mr-1 lg:mr-2"></div>
-                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-yellow-500 mr-1 lg:mr-2"></div>
-                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-green-500 mr-1 lg:mr-2"></div>
-                    <span className="text-xs text-gray-400">linguify.ai</span>
+                    <div className={`rounded-full bg-red-500 ${
+                      isLandscape ? "w-1.5 h-1.5 mr-1" : "w-2 h-2 lg:w-3 lg:h-3 mr-1 lg:mr-2"
+                    }`}></div>
+                    <div className={`rounded-full bg-yellow-500 ${
+                      isLandscape ? "w-1.5 h-1.5 mr-1" : "w-2 h-2 lg:w-3 lg:h-3 mr-1 lg:mr-2"
+                    }`}></div>
+                    <div className={`rounded-full bg-green-500 ${
+                      isLandscape ? "w-1.5 h-1.5 mr-1" : "w-2 h-2 lg:w-3 lg:h-3 mr-1 lg:mr-2"
+                    }`}></div>
+                    <span className={`text-gray-400 ${
+                      isLandscape ? "text-[10px]" : "text-xs"
+                    }`}>linguify.ai</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row justify-between sm:space-x-4 py-2">
-                  <div className="w-full sm:w-1/2 bg-[#131315] p-2 lg:p-3 rounded-lg border border-gray-800 mb-2 sm:mb-0">
-                    <div className="text-xs text-gray-400 mb-1">English</div>
-                    <div className="text-xs lg:text-sm text-white">Hello, how are you today?</div>
+                <div className={`flex flex-col sm:flex-row justify-between sm:space-x-4 ${
+                  isLandscape ? "py-1" : "py-2"
+                }`}>
+                  <div className={`w-full sm:w-1/2 bg-[#131315] rounded-lg border border-gray-800 mb-2 sm:mb-0 ${
+                    isLandscape ? "p-1.5" : "p-2 lg:p-3"
+                  }`}>
+                    <div className={`text-gray-400 mb-1 ${
+                      isLandscape ? "text-[10px]" : "text-xs"
+                    }`}>English</div>
+                    <div className={`text-white ${
+                      isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                    }`}>Hello, how are you today?</div>
                   </div>
 
-                  <svg className="hidden sm:block w-4 h-4 lg:w-6 lg:h-6 text-[#ff5e1a] self-center animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`hidden sm:block self-center animate-pulse text-[#ff5e1a] ${
+                    isLandscape ? "w-3 h-3" : "w-4 h-4 lg:w-6 lg:h-6"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
 
-                  <div className="w-full sm:w-1/2 bg-[#131315] p-2 lg:p-3 rounded-lg border border-gray-800">
-                    <div className="text-xs text-gray-400 mb-1">Spanish</div>
-                    <div className="text-xs lg:text-sm text-white">Hola, ¿cómo estás hoy?</div>
+                  <div className={`w-full sm:w-1/2 bg-[#131315] rounded-lg border border-gray-800 ${
+                    isLandscape ? "p-1.5" : "p-2 lg:p-3"
+                  }`}>
+                    <div className={`text-gray-400 mb-1 ${
+                      isLandscape ? "text-[10px]" : "text-xs"
+                    }`}>Spanish</div>
+                    <div className={`text-white ${
+                      isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                    }`}>Hola, ¿cómo estás hoy?</div>
                   </div>
                 </div>
               </div>
 
               {/* Metrics/Highlights */}
-              <div className="grid grid-cols-2 gap-2 lg:gap-4 mb-4 lg:mb-6">
-                <div className="bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
-                  <div className="text-xl lg:text-2xl font-bold text-white">90%</div>
-                  <div className="text-xs text-gray-400">Language detection accuracy</div>
+              <div className={`grid grid-cols-2 ${
+                isLandscape ? "gap-1 mb-2" : "gap-2 lg:gap-4 mb-4 lg:mb-6"
+              }`}>
+                <div className={`bg-[#1f1f23] rounded-xl border border-gray-800 ${
+                  isLandscape ? "p-2" : "p-3 lg:p-4"
+                }`}>
+                  <div className={`font-bold text-white ${
+                    isLandscape ? "text-base" : "text-xl lg:text-2xl"
+                  }`}>90%</div>
+                  <div className={`text-gray-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs"
+                  }`}>Language detection accuracy</div>
                 </div>
-                <div className="bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
-                  <div className="text-xl lg:text-2xl font-bold text-white">29</div>
-                  <div className="text-xs text-gray-400">Supported languages</div>
+                <div className={`bg-[#1f1f23] rounded-xl border border-gray-800 ${
+                  isLandscape ? "p-2" : "p-3 lg:p-4"
+                }`}>
+                  <div className={`font-bold text-white ${
+                    isLandscape ? "text-base" : "text-xl lg:text-2xl"
+                  }`}>29</div>
+                  <div className={`text-gray-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs"
+                  }`}>Supported languages</div>
                 </div>
               </div>
 
               {/* Project Description */}
-              <p className="text-gray-300 text-xs lg:text-sm mb-4">
-                Cloud-based multi-lingual translation platform using AI-driven text and video conversions. Integrated open-source LLMs from Hugging Face for speech translation with distributed systems architecture via Kubernetes.
+              <p className={`text-gray-300 ${
+                isLandscape ? "text-[10px] mb-2 line-clamp-2" : "text-xs lg:text-sm mb-4"
+              }`}>
+                Cloud-based multi-lingual translation platform using AI-driven text and video conversions. Integrated open-source LLMs from Hugging Face for speech translation with distributed systems architecture via Docker.
               </p>
 
               {/* Results */}
-              <div className="flex flex-wrap space-x-2 lg:space-x-4 relative z-10">
+              <div className={`flex flex-wrap relative z-10 ${
+                isLandscape ? "space-x-1" : "space-x-2 lg:space-x-4"
+              }`}>
                 <div className="flex items-center">
-                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`text-green-500 mr-1 ${
+                    isLandscape ? "w-2 h-2" : "w-3 h-3 lg:w-4 lg:h-4"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7 7 7-7" />
                   </svg>
-                  <span className="text-green-400 text-xs lg:text-sm">50% comprehension</span>
+                  <span className={`text-green-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                  }`}>50% comprehension</span>
                 </div>
                 <div className="flex items-center">
-                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`text-green-500 mr-1 ${
+                    isLandscape ? "w-2 h-2" : "w-3 h-3 lg:w-4 lg:h-4"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7 7 7-7" />
                   </svg>
-                  <span className="text-green-400 text-xs lg:text-sm">17% engagement</span>
+                  <span className={`text-green-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                  }`}>17% engagement</span>
                 </div>
               </div>
             </div>
 
-            {/* Hover Effect - Reveal View Project Button */}
-            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#131315] to-transparent p-4 lg:p-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10">
-              <button onClick={() => window.open("https://github.com/sshah232/Linguify", "_blank")} className="w-full py-2 lg:py-3 bg-[#ff5e1a] rounded-full text-white text-sm lg:text-base font-medium hover:bg-opacity-90 transition-all">
+            {/* Hover Effect - Reveal View Project Button - More accessible in landscape */}
+            <div className={`absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#131315] to-transparent ${
+              isLandscape ? "p-2 opacity-100 translate-y-0" : "p-4 lg:p-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"
+            } transition-all duration-300 z-10`}>
+              <button onClick={() => window.open("https://github.com/sshah232/Linguify", "_blank")} className={`w-full bg-[#ff5e1a] rounded-full text-white font-medium hover:bg-opacity-90 transition-all ${
+                isLandscape ? "py-1 text-xs" : "py-2 lg:py-3 text-sm lg:text-base"
+              }`}>
                 View Project Details
               </button>
             </div>
           </div>
 
           {/* Bachelor's Progress Card */}
-          <div className="relative bg-[#131315] rounded-3xl p-4 md:p-6 lg:p-8 flex flex-col justify-between sm:col-span-1 row-span-2 overflow-hidden">
+          <div className={`${cardBaseClass} flex flex-col justify-between sm:col-span-1 ${
+            isLandscape ? "row-span-1 max-h-[85vh] overflow-y-auto" : "row-span-2"
+          } overflow-hidden`}>
             {/* SVG Accent */}
-            <svg className="absolute -top-8 -left-8 w-48 h-48 opacity-5 text-white rotate-45" fill="none" stroke="currentColor" viewBox="0 0 100 100">
+            <svg className={`absolute -top-8 -left-8 opacity-5 text-white rotate-45 ${
+              isLandscape ? "w-24 h-24" : "w-48 h-48"
+            }`} fill="none" stroke="currentColor" viewBox="0 0 100 100">
               <path d="M0,50 Q50,0 100,50 T200,50" strokeWidth="1" />
             </svg>
+            
             {/* Mumbai Logo */}
-            <img src={uofm} alt="University of Mumbai Logo" className="w-20 h-20 sm:w-24 sm:h-24 lg:w-36 lg:h-36 mx-auto mb-2 lg:mb-4" />
-            <h3 className="text-lg lg:text-xl font-bold text-center text-white mb-2">B.E. in Computer Engineering</h3>
+            <img 
+              src={uofm} 
+              alt="University of Mumbai Logo" 
+              className={`mx-auto ${
+                isLandscape 
+                  ? "w-16 h-16 mb-1" 
+                  : "w-20 h-20 sm:w-24 sm:h-24 lg:w-36 lg:h-36 mb-2 lg:mb-4"
+              }`}
+            />
+            
+            <h3 className={`${headingClass} text-center`}>B.E. in Computer Engineering</h3>
+            
             {/* Progress Ring */}
-            <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto mb-2">
+            <div className={`relative mx-auto mb-2 ${
+              isLandscape ? "w-16 h-16" : "w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32"
+            }`}>
               {/* Background circle */}
-              <div className="absolute top-0 left-0 w-full h-full rounded-full border-6 lg:border-8 border-gray-800"></div>
+              <div className={`absolute top-0 left-0 w-full h-full rounded-full ${
+                isLandscape ? "border-4" : "border-6 lg:border-8"
+              } border-gray-800`}></div>
 
               {/* Progress circle */}
               <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100">
@@ -229,15 +403,23 @@ function HomeBentoGridLayout() {
 
               {/* Percentage text */}
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">100%</span>
+                <span className={`font-bold text-white ${
+                  isLandscape ? "text-lg" : "text-xl sm:text-2xl lg:text-3xl"
+                }`}>100%</span>
               </div>
             </div>
-            <p className="text-center text-xs lg:text-sm text-gray-400">CGPA: 9.43 / 10.0</p>
+            
+            <p className={`text-center ${
+              isLandscape ? "text-xs" : "text-xs lg:text-sm"
+            } text-gray-400`}>CGPA: 9.43 / 10.0</p>
+            
             <p className="text-center text-xs text-gray-500 mt-1">Aug 2019 – May 2023</p>
           </div>
 
           {/* Sakhi Project Card */}
-          <div className="relative bg-[#131315] rounded-3xl p-4 md:p-6 lg:p-8 overflow-hidden sm:col-span-2 row-span-2 group hover:bg-[#1a1a1c] transition-all duration-300">
+          <div className={`${cardBaseClass} overflow-hidden sm:col-span-2 ${
+            isLandscape ? "row-span-1 max-h-[85vh] overflow-y-auto" : "row-span-2"
+          } group hover:bg-[#1a1a1c] transition-all duration-300`}>
             {/* Background Accent */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
               <div className="absolute top-10 left-20 w-24 h-24 rounded-full bg-purple-500 blur-xl"></div>
@@ -247,104 +429,180 @@ function HomeBentoGridLayout() {
 
             <div className="relative z-10">
               {/* Project Header */}
-              <div className="flex flex-col sm:flex-row justify-between items-start mb-4 lg:mb-6">
+              <div className={`flex flex-col sm:flex-row justify-between items-start ${
+                isLandscape ? "mb-2" : "mb-4 lg:mb-6"
+              }`}>
                 <div>
-                  <div className="flex flex-wrap items-center mb-2 sm:mb-0">
-                    <span className="text-[#ff5e1a] text-base lg:text-lg font-bold mr-2">Sakhi Chatbot</span>
-                    <span className="mt-1 sm:mt-0 px-2 py-1 bg-green-500 bg-opacity-20 text-green-400 text-xs rounded-full">DevHacks Winner 🏆</span>
+                  <div className={`flex flex-wrap items-center ${
+                    isLandscape ? "mb-1" : "mb-2 sm:mb-0"
+                  }`}>
+                    <span className={`text-[#ff5e1a] font-bold mr-2 ${
+                      isLandscape ? "text-sm" : "text-base lg:text-lg"
+                    }`}>Sakhi Chatbot</span>
+                    <span className={`mt-1 sm:mt-0 bg-green-500 bg-opacity-20 text-green-400 rounded-full ${
+                      isLandscape ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-1 text-xs"
+                    }`}>DevHacks Winner 🏆</span>
                   </div>
-                  <p className="text-gray-400 text-xs lg:text-sm mt-1">March 2025</p>
+                  <p className={`text-gray-400 mt-1 ${
+                    isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                  }`}>March 2025</p>
                 </div>
 
                 {/* Technology Icons */}
                 <div className="flex space-x-2 mt-2 sm:mt-0">
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="React">Re</span>
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="Node.js">Nj</span>
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="Gemini">Gm</span>
+                  <span className={`flex items-center justify-center bg-gray-800 rounded-full text-white ${
+                    isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                  }`} title="React">Re</span>
+                  <span className={`flex items-center justify-center bg-gray-800 rounded-full text-white ${
+                    isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                  }`} title="Node.js">Nj</span>
+                  <span className={`flex items-center justify-center bg-gray-800 rounded-full text-white ${
+                    isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                  }`} title="Gemini">Gm</span>
                 </div>
               </div>
 
               {/* Visual Element - Chatbot Visualization */}
-              <div className="mb-4 lg:mb-6 bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
-                <div className="flex items-center justify-between mb-2 lg:mb-3">
+              <div className={`bg-[#1f1f23] rounded-xl border border-gray-800 ${
+                isLandscape ? "mb-2 p-2" : "mb-4 lg:mb-6 p-3 lg:p-4"
+              }`}>
+                <div className={`flex items-center justify-between ${
+                  isLandscape ? "mb-1" : "mb-2 lg:mb-3"
+                }`}>
                   <div className="flex items-center">
-                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-red-500 mr-1 lg:mr-2"></div>
-                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-yellow-500 mr-1 lg:mr-2"></div>
-                    <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-green-500 mr-1 lg:mr-2"></div>
-                    <span className="text-xs text-gray-400">sakhi-assistant.ai</span>
+                    <div className={`rounded-full bg-red-500 ${
+                      isLandscape ? "w-1.5 h-1.5 mr-1" : "w-2 h-2 lg:w-3 lg:h-3 mr-1 lg:mr-2"
+                    }`}></div>
+                    <div className={`rounded-full bg-yellow-500 ${
+                      isLandscape ? "w-1.5 h-1.5 mr-1" : "w-2 h-2 lg:w-3 lg:h-3 mr-1 lg:mr-2"
+                    }`}></div>
+                    <div className={`rounded-full bg-green-500 ${
+                      isLandscape ? "w-1.5 h-1.5 mr-1" : "w-2 h-2 lg:w-3 lg:h-3 mr-1 lg:mr-2"
+                    }`}></div>
+                    <span className={`text-gray-400 ${
+                      isLandscape ? "text-[10px]" : "text-xs"
+                    }`}>sakhi-assistant.ai</span>
                   </div>
                 </div>
 
-                <div className="space-y-2 lg:space-y-3 py-2">
+                <div className={`space-y-2 ${
+                  isLandscape ? "space-y-1 py-1" : "lg:space-y-3 py-2"
+                }`}>
                   <div className="flex">
-                    <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#ff5e1a] ml-2 mr-1.5 flex-shrink-0 flex items-center justify-center text-white text-xs">SS</div>
-                    <div className="bg-[#131315] p-2 lg:p-3 rounded-lg border border-gray-800 max-w-[80%]">
-                      <div className="text-xs lg:text-sm text-white">I am feeling very low today!</div>
+                    <div className={`rounded-full bg-[#ff5e1a] ml-2 mr-1.5 flex-shrink-0 flex items-center justify-center text-white ${
+                      isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                    }`}>SS</div>
+                    <div className={`bg-[#131315] rounded-lg border border-gray-800 max-w-[80%] ${
+                      isLandscape ? "p-1.5" : "p-2 lg:p-3"
+                    }`}>
+                      <div className={`text-white ${
+                        isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                      }`}>I am feeling very low today!</div>
                     </div>
                   </div>
 
                   <div className="flex flex-row-reverse">
-                    <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#ff5e1a] ml-2 flex-shrink-0 flex items-center justify-center text-white text-xs">AI</div>
-                    <div className="bg-[#24242b] p-2 lg:p-3 rounded-lg border border-gray-700 max-w-[80%]">
-                      <div className="text-xs lg:text-sm text-white">Hello! 🤗 I'm here for you, always. Whatever you're going through, I'll listen without judgment and offer my support. You're not alone in this.❤️</div>
+                    <div className={`rounded-full bg-[#ff5e1a] ml-2 flex-shrink-0 flex items-center justify-center text-white ${
+                      isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                    }`}>AI</div>
+                    <div className={`bg-[#24242b] rounded-lg border border-gray-700 max-w-[80%] ${
+                      isLandscape ? "p-1.5" : "p-2 lg:p-3"
+                    }`}>
+                      <div className={`text-white ${
+                        isLandscape ? "text-[10px] line-clamp-2" : "text-xs lg:text-sm"
+                      }`}>Hello! 🤗 I'm here for you, always. Whatever you're going through, I'll listen without judgment and offer my support. You're not alone in this.❤️</div>
                     </div>
                   </div>
 
-                  <div className="flex justify-center">
-                    <div className="flex items-center justify-center bg-gray-800 bg-opacity-50 rounded-full py-1 px-2 lg:px-3 space-x-1">
-                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#ff5e1a] animate-pulse"></div>
-                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#ff5e1a] animate-pulse delay-100"></div>
-                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#ff5e1a] animate-pulse delay-200"></div>
-                      <span className="text-xs text-gray-400 ml-1">Voice response ready</span>
+                  {!isLandscape && (
+                    <div className="flex justify-center">
+                      <div className="flex items-center justify-center bg-gray-800 bg-opacity-50 rounded-full py-1 px-2 lg:px-3 space-x-1">
+                        <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#ff5e1a] animate-pulse"></div>
+                        <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#ff5e1a] animate-pulse delay-100"></div>
+                        <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#ff5e1a] animate-pulse delay-200"></div>
+                        <span className="text-xs text-gray-400 ml-1">Voice response ready</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
               {/* Metrics/Highlights */}
-              <div className="grid grid-cols-2 gap-2 lg:gap-4 mb-4 lg:mb-6">
-                <div className="bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
-                  <div className="text-xl lg:text-2xl font-bold text-white">92%</div>
-                  <div className="text-xs text-gray-400">Response accuracy</div>
+              <div className={`grid grid-cols-2 ${
+                isLandscape ? "gap-1 mb-2" : "gap-2 lg:gap-4 mb-4 lg:mb-6"
+              }`}>
+                <div className={`bg-[#1f1f23] rounded-xl border border-gray-800 ${
+                  isLandscape ? "p-2" : "p-3 lg:p-4"
+                }`}>
+                  <div className={`font-bold text-white ${
+                    isLandscape ? "text-base" : "text-xl lg:text-2xl"
+                  }`}>92%</div>
+                  <div className={`text-gray-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs"
+                  }`}>Response accuracy</div>
                 </div>
-                <div className="bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800">
-                  <div className="text-xl lg:text-2xl font-bold text-white">~500ms</div>
-                  <div className="text-xs text-gray-400">Response time</div>
+                <div className={`bg-[#1f1f23] rounded-xl border border-gray-800 ${
+                  isLandscape ? "p-2" : "p-3 lg:p-4"
+                }`}>
+                  <div className={`font-bold text-white ${
+                    isLandscape ? "text-base" : "text-xl lg:text-2xl"
+                  }`}>~500ms</div>
+                  <div className={`text-gray-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs"
+                  }`}>Response time</div>
                 </div>
               </div>
 
               {/* Project Description */}
-              <p className="text-gray-300 text-xs lg:text-sm mb-4">
+              <p className={`text-gray-300 ${
+                isLandscape ? "text-[10px] mb-2 line-clamp-2" : "text-xs lg:text-sm mb-4"
+              }`}>
                 End-to-end GenAI pipeline using Gemini API and RAG for employee engagement. Includes voice interactions via Azure TTS/STT APIs and secure user authentication with AES-256 encryption & OAuth 2.0.
               </p>
 
               {/* Results */}
-              <div className="flex flex-wrap space-x-2 lg:space-x-4">
+              <div className={`flex flex-wrap ${
+                isLandscape ? "space-x-1" : "space-x-2 lg:space-x-4"
+              }`}>
                 <div className="flex items-center">
-                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`text-green-500 mr-1 ${
+                    isLandscape ? "w-2 h-2" : "w-3 h-3 lg:w-4 lg:h-4"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7 7 7-7" />
                   </svg>
-                  <span className="text-green-400 text-xs lg:text-sm">40% reduced friction</span>
+                  <span className={`text-green-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                  }`}>40% reduced friction</span>
                 </div>
                 <div className="flex items-center">
-                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`text-green-500 mr-1 ${
+                    isLandscape ? "w-2 h-2" : "w-3 h-3 lg:w-4 lg:h-4"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7 7 7-7" />
                   </svg>
-                  <span className="text-green-400 text-xs lg:text-sm">100% data security</span>
+                  <span className={`text-green-400 ${
+                    isLandscape ? "text-[10px]" : "text-xs lg:text-sm"
+                  }`}>100% data security</span>
                 </div>
               </div>
             </div>
 
-            {/* Hover Effect - Reveal View Project Button */}
-            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#1a1a1c] via-[#1a1a1c] to-transparent p-4 lg:p-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-20">
-              <button onClick={() => window.open("https://github.com/sshah232/SakhiClient", "_blank")} className="w-full py-2 lg:py-3 bg-[#ff5e1a] rounded-full text-white text-sm lg:text-base font-medium hover:bg-opacity-90 transition-all">
+            {/* Hover Effect - Reveal View Project Button - More accessible in landscape */}
+            <div className={`absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#1a1a1c] via-[#1a1a1c] to-transparent ${
+              isLandscape ? "p-2 opacity-100 translate-y-0" : "p-4 lg:p-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"
+            } transition-all duration-300 z-20`}>
+              <button onClick={() => window.open("https://github.com/sshah232/SakhiClient", "_blank")} className={`w-full bg-[#ff5e1a] rounded-full text-white font-medium hover:bg-opacity-90 transition-all ${
+                isLandscape ? "py-1 text-xs" : "py-2 lg:py-3 text-sm lg:text-base"
+              }`}>
                 View Project Details
               </button>
             </div>
           </div>
 
           {/* Research & ML Card */}
-          <div className="relative bg-[#131315] rounded-3xl p-4 md:p-6 lg:p-8 overflow-hidden group hover:bg-[#1a1a1c] transition-all duration-300 col-span-1 row-span-2 sm:col-span-2">
+          <div className={`${cardBaseClass} overflow-hidden group hover:bg-[#1a1a1c] transition-all duration-300 col-span-1 ${
+            isLandscape ? "row-span-1 max-h-[85vh] overflow-y-auto" : "row-span-2 sm:col-span-2"
+          }`}>
             {/* Background Animation */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
               <div className="absolute top-10 right-10 w-20 h-20 rounded-full bg-yellow-500 blur-xl"></div>
@@ -352,77 +610,105 @@ function HomeBentoGridLayout() {
             </div>
 
             <div className="relative z-10">
-              <div className="flex flex-col sm:flex-row justify-between items-start mb-3 lg:mb-4">
+              <div className={`flex flex-col sm:flex-row justify-between items-start ${
+                isLandscape ? "mb-2" : "mb-3 lg:mb-4"
+              }`}>
                 <div>
-                  <div className="flex flex-wrap items-center mb-2 sm:mb-0">
-                    <span className="text-[#ff5e1a] text-base lg:text-lg font-bold mr-2">YOLOv8 Research</span>
-                    <span className="mt-1 sm:mt-0 px-2 py-1 bg-yellow-500 bg-opacity-20 text-yellow-400 text-xs rounded-full">Prof. Shenghan Guo, ASU</span>
+                  <div className={`flex flex-wrap items-center ${
+                    isLandscape ? "mb-1" : "mb-2 sm:mb-0"
+                  }`}>
+                    <span className={`text-[#ff5e1a] font-bold mr-2 ${
+                      isLandscape ? "text-sm" : "text-base lg:text-lg"
+                    }`}>YOLOv8 Research</span>
+                    <span className={`mt-1 sm:mt-0 bg-yellow-500 bg-opacity-20 text-yellow-400 rounded-full ${
+                      isLandscape ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-1 text-xs"
+                    }`}>Prof. Shenghan Guo, ASU</span>
                   </div>
                 </div>
 
                 {/* Tech Stack Tags */}
                 <div className="flex space-x-2 mt-2 sm:mt-0">
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="PyTorch">Pt</span>
-                  <span className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center bg-gray-800 rounded-full text-xs text-white" title="OpenCV">CV</span>
+                  <span className={`flex items-center justify-center bg-gray-800 rounded-full text-white ${
+                    isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                  }`} title="PyTorch">Pt</span>
+                  <span className={`flex items-center justify-center bg-gray-800 rounded-full text-white ${
+                    isLandscape ? "w-5 h-5 text-[10px]" : "w-6 h-6 lg:w-8 lg:h-8 text-xs"
+                  }`} title="OpenCV">CV</span>
                 </div>
               </div>
 
               {/* Visual Element */}
-              <div className="flex flex-col sm:flex-row sm:space-x-3 mb-3 lg:mb-4">
-                <div className="flex-1 bg-[#1f1f23] p-2 lg:p-3 rounded-xl border border-gray-800 relative overflow-hidden mb-2 sm:mb-0">
+              <div className={`flex flex-col sm:flex-row ${
+                isLandscape ? "sm:space-x-2 mb-2" : "sm:space-x-3 mb-3 lg:mb-4"
+              }`}>
+                <div className={`flex-1 bg-[#1f1f23] rounded-xl border border-gray-800 relative overflow-hidden ${
+                  isLandscape ? "p-1.5 mb-1" : "p-2 lg:p-3 mb-2"
+                } sm:mb-0`}>
                   <div className="absolute inset-0 opacity-30">
                     <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-red-500 to-transparent"></div>
-                    {/* <div className="absolute top-1/3 left-1/4 w-10 h-10 rounded-lg border-2 border-green-400"></div>
-                    <div className="absolute top-1/2 left-1/2 w-16 h-8 rounded-lg border-2 border-blue-400"></div> */}
                   </div>
                   <div className="relative w-full h-full">
-                    <div className="text-xs text-gray-400 mb-1">Original Image</div>
-                    <div className="w-full h-auto min-h-[180px] sm:min-h-[200px] bg-gray-800 rounded-md">
-                      <img src={ml1} className="w-full h-full object-contain" />
+                    <div className={`text-gray-400 mb-1 ${
+                      isLandscape ? "text-[10px]" : "text-xs"
+                    }`}>Original Image</div>
+                    <div className={`w-full h-auto bg-gray-800 rounded-md ${
+                      isLandscape ? "min-h-[100px]" : "min-h-[180px] sm:min-h-[200px]"
+                    }`}>
+                      <img src={ml1} className="w-full h-full object-contain" alt="ML research original" />
                     </div>
                   </div>
                 </div>
 
-                <div className="hidden sm:flex items-center">
-                  <svg className="w-4 h-4 lg:w-6 lg:h-6 text-[#ff5e1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className={`hidden sm:flex items-center ${
+                  isLandscape ? "mx-1" : ""
+                }`}>
+                  <svg className={`text-[#ff5e1a] ${
+                    isLandscape ? "w-3 h-3" : "w-4 h-4 lg:w-6 lg:h-6"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </div>
 
-                <div className="flex-1 bg-[#1f1f23] p-2 lg:p-3 rounded-xl border border-gray-800 relative overflow-hidden">
+                <div className={`flex-1 bg-[#1f1f23] rounded-xl border border-gray-800 relative overflow-hidden ${
+                  isLandscape ? "p-1.5" : "p-2 lg:p-3"
+                }`}>
                   <div className="absolute inset-0 opacity-30">
                     <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-red-500 to-transparent"></div>
-                    {/* <div className="absolute top-1/3 left-1/4 w-10 h-10 rounded-lg border-2 border-green-400">
-                      <div className="absolute -top-6 -left-1 text-xs text-green-400">Defect 99.2%</div>
-                    </div>
-                    <div className="absolute top-1/2 left-1/2 w-16 h-8 rounded-lg border-2 border-blue-400">
-                      <div className="absolute -top-6 -left-1 text-xs text-blue-400">Scratch 97.8%</div>
-                    </div> */}
                   </div>
                   <div className="relative">
-                    <div className="text-xs text-gray-400 mb-1">YOLOv8 Detection</div>
-                    {/* <div className="w-full h-12 sm:h-16 bg-gray-800 rounded-md"> */}
-                    <div className="w-full h-auto min-h-[180px] sm:min-h-[200px] bg-gray-800 rounded-md">
-                      <img src={ml2} className="w-full h-full object-contain" />
+                    <div className={`text-gray-400 mb-1 ${
+                      isLandscape ? "text-[10px]" : "text-xs"
+                    }`}>YOLOv8 Detection</div>
+                    <div className={`w-full h-auto bg-gray-800 rounded-md ${
+                      isLandscape ? "min-h-[100px]" : "min-h-[180px] sm:min-h-[200px]"
+                    }`}>
+                      <img src={ml2} className="w-full h-full object-contain" alt="ML research detection" />
                     </div>
-                    {/* </div> */}
                   </div>
                 </div>
               </div>
 
               {/* Accuracy Meter */}
-              <div className="bg-[#1f1f23] p-3 lg:p-4 rounded-xl border border-gray-800 mb-3 lg:mb-4">
-                <div className="flex justify-between text-xs text-gray-400 mb-1">
+              <div className={`bg-[#1f1f23] rounded-xl border border-gray-800 ${
+                isLandscape ? "p-2 mb-2" : "p-3 lg:p-4 mb-3 lg:mb-4"
+              }`}>
+                <div className={`flex justify-between text-gray-400 mb-1 ${
+                  isLandscape ? "text-[10px]" : "text-xs"
+                }`}>
                   <span>Accuracy</span>
                   <span>79%</span>
                 </div>
-                <div className="w-full h-1.5 lg:h-2 bg-gray-800 rounded-full overflow-hidden">
+                <div className={`w-full bg-gray-800 rounded-full overflow-hidden ${
+                  isLandscape ? "h-1" : "h-1.5 lg:h-2"
+                }`}>
                   <div className="h-full bg-[#ff5e1a] rounded-full" style={{ width: '79%' }}></div>
                 </div>
               </div>
 
               {/* Description */}
-              <p className="text-gray-300 text-xs lg:text-sm">
+              <p className={`text-gray-300 ${
+                isLandscape ? "text-[10px] line-clamp-2" : "text-xs lg:text-sm"
+              }`}>
                 Enhanced manufacturing defect detection using YOLOv8 transfer learning through dataset labeling, model fine-tuning, and evaluation to improve surface roughness detection across diverse manufacturing environments.
               </p>
             </div>
@@ -837,6 +1123,18 @@ function HomeBentoGridLayout() {
             <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-4">Certifications & Awards</h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+              {/* DevHacks Winner */}
+              <div className="bg-[#1f1f23] p-3 sm:p-4 rounded-xl border border-gray-800 flex items-center">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-yellow-500 bg-opacity-20 flex items-center justify-center mr-3 sm:mr-4">
+                  <span className="text-lg sm:text-xl text-yellow-400">🏆</span>
+                </div>
+                <div>
+                  <div className="text-xs sm:text-sm font-medium text-white">DevHacks & Innovation Hacks Winner</div>
+                  <div className="text-xs text-gray-400">1st and 2nd Prize</div>
+                  <div className="text-xs text-gray-500">April 2025</div>
+                </div>
+              </div>
+            
               {/* Google Cloud Hero */}
               <div className="bg-[#1f1f23] p-3 sm:p-4 rounded-xl border border-gray-800 flex items-center">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 bg-opacity-20 flex items-center justify-center mr-3 sm:mr-4">
@@ -862,18 +1160,6 @@ function HomeBentoGridLayout() {
                   <div className="text-xs sm:text-sm font-medium text-white">JPMorgan Chase</div>
                   <div className="text-xs text-gray-400">Software Engineering Simulation</div>
                   <div className="text-xs text-gray-500">May 2024</div>
-                </div>
-              </div>
-
-              {/* DevHacks Winner */}
-              <div className="bg-[#1f1f23] p-3 sm:p-4 rounded-xl border border-gray-800 flex items-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-yellow-500 bg-opacity-20 flex items-center justify-center mr-3 sm:mr-4">
-                  <span className="text-lg sm:text-xl text-yellow-400">🏆</span>
-                </div>
-                <div>
-                  <div className="text-xs sm:text-sm font-medium text-white">DevHacks Winner</div>
-                  <div className="text-xs text-gray-400">1st Prize</div>
-                  <div className="text-xs text-gray-500">March 2025</div>
                 </div>
               </div>
 

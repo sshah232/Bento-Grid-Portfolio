@@ -96,40 +96,48 @@ function ModularHome() {
           {/* Background gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#131315] to-[#1a1a1c] opacity-70"></div>
           <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#ff5e1a] opacity-5 rounded-full blur-3xl group-hover:opacity-10 transition-opacity duration-500"></div>
-          
+
           {/* Title with gradient highlight */}
           <div className="relative flex items-center">
             <span className="text-4xl mr-3">🚀</span>
             <div className="h-8 w-1 bg-gradient-to-b from-[#ff5e1a] to-transparent rounded-full mr-3"></div>
             <h2 className="text-2xl font-bold text-white">About Me</h2>
           </div>
-          
+
           {/* Bio with animated highlight */}
           <h3 className="relative z-10 text-xl leading-relaxed text-[#a0a0a8] max-md:text-lg max-md:leading-7">
-            I'm a <span className="font-bold text-white">full-stack software engineer</span> passionate about 
+            At the intersection of
             <span className="relative inline-block mx-1">
-              <span className="relative z-10 font-bold text-white">AI</span>
+              <span className="relative z-10 font-bold text-white">AI innovation</span>
               <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
-            </span>, 
+            </span>
+            and
             <span className="relative inline-block mx-1">
-              <span className="relative z-10 font-bold text-white">cloud infrastructure</span>
+              <span className="relative z-10 font-bold text-white">engineering precision</span>
               <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
-            </span>, and 
+            </span>,
+            I architect digital solutions that transform complex challenges into seamless experiences. With
             <span className="relative inline-block mx-1">
-              <span className="relative z-10 font-bold text-white">scalable systems</span>
+              <span className="relative z-10 font-bold text-white">award-winning projects</span>
               <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
-            </span>. 
-            From launching multilingual platforms to winning national hackathons, I turn bold ideas into powerful products. 
-            Join me to explore my unique projects and creative solutions.
+            </span>
+            spanning multilingual platforms and empathetic AI assistants, I combine 
+            <span className="font-bold text-white"> technical expertise</span> with
+            <span className="font-bold text-white"> creative vision</span> to build systems that scale and resonate. Currently pursuing my
+            <span className="relative inline-block mx-1">
+              <span className="relative z-10 font-bold text-white">Master's at ASU</span>
+              <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ff5e1a] opacity-50"></span>
+            </span>
+            while bringing enterprise-grade solutions to life—one elegant line of code at a time.
           </h3>
-          
+
           {/* Animated tech icons */}
           <div className="absolute bottom-4 right-4 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
             <div className="flex space-x-4">
               {['brain', 'server', 'code', 'globe'].map((tech, index) => (
-                <div 
-                  key={tech} 
-                  className="text-[#ff5e1a] animate-pulse" 
+                <div
+                  key={tech}
+                  className="text-[#ff5e1a] animate-pulse"
                   style={{ animationDelay: `${index * 0.3}s` }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

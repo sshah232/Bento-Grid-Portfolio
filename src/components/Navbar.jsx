@@ -3,9 +3,9 @@ import { FadeIn } from "./FadeIn";
 import { Link } from "react-router-dom";
 
 const navlinkes = [
-  { name: "home.", link: "/" },
-  { name: "work.", link: "/work" },
-  { name: "contact.", link: "/contact" },
+  { name: "Home", link: "/" },
+  { name: "Work", link: "/work" },
+  { name: "Contact", link: "/contact" },
 ];
 
 function Navbar() {
@@ -13,9 +13,10 @@ function Navbar() {
     <div>
       <FadeIn>
         <div className="flex max-w-[1240px] justify-between max-sm:justify-center items-center bg-[#131315] mx-auto px-8 py-4 max-lg:mx-2 rounded-[999px] mt-6">
-          <span className="text-lg leading-6 -translate-x-[0.01em]">
-            Shubham Shah.
-          </span>
+          {/* Make the name clickable by wrapping it in a Link component */}
+          <Link to="/" className="text-lg leading-6 -translate-x-[0.01em] hover:text-[#ff5e1a] transition-all duration-300 cursor-pointer">
+            Shubham Shah
+          </Link>
           <div className="flex justify-end items-center gap-x-8 gap-y-8 max-md:gap-3 max-sm:hidden">
             {navlinkes.map((navlink) => (
               <Link
