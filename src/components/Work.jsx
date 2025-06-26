@@ -11,7 +11,7 @@ const Work = () => {
       role: "Software Developer Assistant",
       company: "Global Launch ASU",
       location: "Tempe, Arizona, USA",
-      period: "November 2023 - Present",
+      period: "November 2023 - May 2025",
       logo: GL,
       color: "#8A1D41", // ASU maroon
       achievements: [

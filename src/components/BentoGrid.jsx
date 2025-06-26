@@ -69,7 +69,7 @@ function HomeBentoGridLayout() {
                   fill="none"
                   stroke="#FF5E1A"
                   strokeWidth="8"
-                  strokeDasharray={`${99 * 2.9}, 300`}
+                  strokeDasharray={`${100 * 2.9}, 300`}
                   strokeLinecap="round"
                   transform="rotate(-90 50 50)"
                 />
@@ -77,7 +77,7 @@ function HomeBentoGridLayout() {
 
               {/* Percentage text */}
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">99%</span>
+                <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">100%</span>
               </div>
             </div>
             <p className="text-center text-xs lg:text-sm text-gray-400">GPA: 3.7 / 4.0</p>
